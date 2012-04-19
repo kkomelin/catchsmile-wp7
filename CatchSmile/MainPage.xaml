@@ -28,7 +28,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Border x:Name="cameraView" BorderBrush="Black" BorderThickness="5" Grid.Column="0">
+          <!--  <Border x:Name="cameraView" BorderBrush="Black" BorderThickness="5" Grid.Column="0">
                 <Border.Background>
                     <VideoBrush x:Name="cameraViewBrush" />
                 </Border.Background>
@@ -36,13 +36,26 @@
             <Border x:Name="lastShotFrame" Visibility="Collapsed" Width="100" Height="Auto" BorderThickness="5">
                     <Image x:Name="lastShot" />
             </Border>
+            -->
+            <ListBox x:Name="listBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBox Width="200"
+                                 FontSize="14"
+                                 Margin="10"
+                                 Text="{Binding Title}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
  
     <!--Page menu-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton  IconUri="/Images/appbar_check.png" Text="Take"/>
+            <shell:ApplicationBarIconButton  IconUri="/Images/appbar_check.png" Text="Take" Click="ApplicationBarIconButton_Click"/>
             <!--        <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
            <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="MenuItem 1"/>

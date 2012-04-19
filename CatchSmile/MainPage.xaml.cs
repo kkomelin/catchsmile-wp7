@@ -13,6 +13,10 @@ using Microsoft.Phone.Controls;
 using Microsoft.Devices;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework.Media;
+using CatchSmile.Services;
+using CatchSmile.Resources;
+using System.Collections.ObjectModel;
+using CatchSmile.Models;
 
 namespace CatchSmile
 {
@@ -31,7 +35,7 @@ namespace CatchSmile
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Check supported camera types.
+          /*  // Check supported camera types.
             if (PhotoCamera.IsCameraTypeSupported(CameraType.FrontFacing))
             {
                 this.Camera = new PhotoCamera(CameraType.FrontFacing);
@@ -49,13 +53,13 @@ namespace CatchSmile
             this.cameraViewBrush.SetSource(this.Camera);
 
             this.Camera.CaptureImageAvailable += new EventHandler<ContentReadyEventArgs>(Camera_CaptureImageAvailable);
-            this.Camera.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(Camera_CaptureThumbnailAvailable);
+            this.Camera.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(Camera_CaptureThumbnailAvailable);*/
         }
 
         void Camera_CaptureThumbnailAvailable(object sender, ContentReadyEventArgs e)
         {
 
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+         /*   Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 BitmapImage image = new BitmapImage();
 
@@ -67,12 +71,12 @@ namespace CatchSmile
 
                 this.cameraView.Visibility = System.Windows.Visibility.Collapsed;
             });
-
+            */
         }
 
         private void Camera_CaptureImageAvailable(object sender, ContentReadyEventArgs e)
         {
-
+            /*
             Deployment.Current.Dispatcher.BeginInvoke(() =>
              {
 
@@ -83,7 +87,7 @@ namespace CatchSmile
                       string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now), e.ImageStream);
 
              });
-
+            */
         }
 
         /// <summary>
@@ -93,7 +97,27 @@ namespace CatchSmile
         /// <param name="e"></param>
         private void listenerTap(object sender, GestureEventArgs e)
         {
-            this.Camera.CaptureImage();
+            //this.Camera.CaptureImage();
+        }
+
+        void onFinish(Node node)
+        {
+            ObservableCollection<Node> oc = new ObservableCollection<Node>();
+            oc.Add(node);
+
+
+            listBox.ItemsSource = oc;
+        }
+
+        void onError(Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            RESTService service = new RESTService(AppResources.RESTServiceUri);
+            service.GetNode(20, onFinish, onError);
         }
     }
 }
