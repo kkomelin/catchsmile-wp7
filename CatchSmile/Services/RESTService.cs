@@ -39,19 +39,35 @@ namespace CatchSmile.Services
             String requestString = String.Format("{0}node/{1}.xml", this.serviceUri, nid);
 
             webClient.OpenReadCompleted += delegate (object sender, OpenReadCompletedEventArgs e) 
-            {
-                if(e.Error != null)
+            {              
+                try
                 {
-                    onError(e.Error);
+                    if (e.Error != null)
+                    {
+                        if (onError != null)
+                        {
+                            onError(e.Error);
+                        }
+                    }
+
+                    XElement resultXml = XElement.Load(e.Result);
+                    XElement xEl = resultXml.Element("title");
+
+                    Node node = new Node();
+                    node.Title = xEl.Value;
+
+                    if (onFinish != null)
+                    {
+                        onFinish(node);
+                    }
                 }
-
-                XElement resultXml = XElement.Load(e.Result);
-                XElement xEl = resultXml.Element("title");
-
-                Node node = new Node();
-                node.Title = xEl.Value;
-
-                onFinish(node);
+                catch (Exception ex)
+                {
+                    if (onError != null)
+                    {
+                        onError(ex);
+                    }
+                }
             };
 
             // Call the OpenReadAsyc to make a GET request.
