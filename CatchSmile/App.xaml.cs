@@ -13,10 +13,20 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
+using CatchSmile.ViewModel;
+using CatchSmile.Model;
+
 namespace CatchSmile
 {
     public partial class App : Application
     {
+        // The static ViewModel, to be used across the application.
+        private static AppViewModel viewModel;
+        public static AppViewModel ViewModel
+        {
+            get { return viewModel; }
+        }
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -57,6 +67,39 @@ namespace CatchSmile
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            InitializeViewModel();
+        }
+
+        /// <summary>
+        /// Initialize ViewModel and database.
+        /// </summary>
+        private void InitializeViewModel()
+        {
+            // Specify the local database connection string.
+            // I use SQL CE database that is stored into Isolated Storage.
+            string DBConnectionString = "Data Source=isostore:/Nodes4.sdf";
+
+            // Create the database if it does not exist.
+            using (AppDataContext db = new AppDataContext(DBConnectionString))
+            {
+                if (db.DatabaseExists() == false)
+                {
+                    // Create the local database.
+                    db.CreateDatabase();
+
+                    db.Nodes.InsertOnSubmit(new Node { Title = "Title1" });
+                    db.Nodes.InsertOnSubmit(new Node { Title = "Title2" });
+                    db.Nodes.InsertOnSubmit(new Node { Title = "Title3" });
+
+                    db.SubmitChanges();
+                }
+            }
+
+            // Create the ViewModel object.
+            viewModel = new AppViewModel(DBConnectionString);
+
+            // Load data into model.
+            viewModel.LoadData();
         }
 
         // Code to execute when the application is launching (eg, from Start)

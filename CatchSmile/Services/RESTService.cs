@@ -9,10 +9,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
-using CatchSmile.Models;
 using Microsoft.Phone.Net.NetworkInformation;
 using System.Xml.Linq;
 using System.Linq;
+using CatchSmile.Model;
 
 
 namespace CatchSmile.Services

@@ -14,7 +14,7 @@ namespace CatchSmile.Model
     {
         private int _nid;
 
-        [Column(IsPrimaryKey = true, IsDbGenerated = false, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
         public int Nid
         {
             get { return _nid; }

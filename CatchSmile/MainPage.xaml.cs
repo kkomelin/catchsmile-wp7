@@ -16,18 +16,19 @@ using Microsoft.Xna.Framework.Media;
 using CatchSmile.Services;
 using CatchSmile.Resources;
 using System.Collections.ObjectModel;
-using CatchSmile.Models;
+using CatchSmile.Model;
 
 namespace CatchSmile
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        
-
-        // Constructor
+        /// <summary>
+        /// Class constructor.
+        /// </summary>
         public MainPage()
         {
             InitializeComponent();
+            this.DataContext = App.ViewModel;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -40,7 +41,7 @@ namespace CatchSmile
 
         }
 
-        void onFinish(Node node)
+        /*void onFinish(Node node)
         {
             ObservableCollection<Node> oc = new ObservableCollection<Node>();
             oc.Add(node);
@@ -52,14 +53,16 @@ namespace CatchSmile
         void onError(Exception e)
         {
             MessageBox.Show(e.Message);
-        }
+        }*/
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             /*RESTService service = new RESTService(AppResources.RESTServiceUri);
             service.GetNode(20, onFinish, onError);*/
 
-            NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));
+
+            //App.ViewModel.AddNode(new Node { Nid = 1, Title = "Title1" });
         }
     }
 }
