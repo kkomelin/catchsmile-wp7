@@ -41,19 +41,17 @@ namespace CatchSmile
 
         }
 
-        /*void onFinish(Node node)
+        void onFinish(Node node)
         {
-            ObservableCollection<Node> oc = new ObservableCollection<Node>();
-            oc.Add(node);
+            App.ViewModel.AddNode(node);
 
-
-            listBox.ItemsSource = oc;
+            listBox.ItemsSource = App.ViewModel.Nodes;
         }
 
         void onError(Exception e)
         {
             MessageBox.Show(e.Message);
-        }*/
+        }
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
@@ -62,7 +60,12 @@ namespace CatchSmile
 
             //NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));
 
-            //App.ViewModel.AddNode(new Node { Nid = 1, Title = "Title1" });
+            Node node = new Node();
+            node.Title = "Sent from my WinPhone7";
+            node.Type = "catchsmile";
+
+            RESTService service = new RESTService(AppResources.RESTServiceUri);
+            service.CreateNode(node, onFinish, onError);
         }
     }
 }

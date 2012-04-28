@@ -12,9 +12,26 @@ namespace CatchSmile.Model
     [Table]
     public class Node : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        private int _nid;
+        private int _rowId;
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
+        public int RowId
+        {
+            get { return _rowId; }
+            set
+            {
+                if (_rowId != value)
+                {
+                    NotifyPropertyChanging("RowId");
+                    _rowId = value;
+                    NotifyPropertyChanged("RowId");
+                }
+            }
+        }
+
+        private int _nid;
+
+        [Column]
         public int Nid
         {
             get { return _nid; }
@@ -59,6 +76,23 @@ namespace CatchSmile.Model
                     NotifyPropertyChanging("Type");
                     _type = value;
                     NotifyPropertyChanged("Type");
+                }
+            }
+        }
+
+        private string _uri;
+
+        [Column]
+        public string Uri
+        {
+            get { return _uri; }
+            set
+            {
+                if (_uri != value)
+                {
+                    NotifyPropertyChanging("Uri");
+                    _uri = value;
+                    NotifyPropertyChanged("Uri");
                 }
             }
         }

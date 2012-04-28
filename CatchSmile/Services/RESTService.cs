@@ -13,6 +13,7 @@ using Microsoft.Phone.Net.NetworkInformation;
 using System.Xml.Linq;
 using System.Linq;
 using CatchSmile.Model;
+using System.IO;
 
 
 namespace CatchSmile.Services
@@ -72,6 +73,66 @@ namespace CatchSmile.Services
 
             // Call the OpenReadAsyc to make a GET request.
             webClient.OpenReadAsync(new Uri(requestString));
+        }
+
+        public void CreateNode(Node node, Action<Node> onFinish = null, Action<Exception> onError = null)
+        {
+            // Check network availability.
+            if (!DeviceNetworkInformation.IsNetworkAvailable)
+            {
+                onError(new Exception("Network is unavailable!"));
+            }
+
+            WebClient webClient = new WebClient();
+
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+            webClient.Headers[HttpRequestHeader.Accept] = "application/xml";
+
+            String requestString = String.Format("{0}node", this.serviceUri);
+
+            String requestQuery = String.Format("title={0}&type={1}", node.Title, node.Type);
+
+            webClient.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
+            {
+                try
+                {
+                    if (e.Error != null)
+                    {
+                        if (onError != null)
+                        {
+                            onError(e.Error);
+                        }
+                    }
+                   
+                    /* Response example:
+                       <?xml version="1.0" encoding="utf-8"?>
+                       <result>
+                          <nid>26</nid>
+                          <uri>http://drupal7/endpoint1/node/26</uri>
+                       </result>
+                     */
+
+                    XElement resultXml = XElement.Parse(e.Result);
+
+                    node.Nid = int.Parse(resultXml.Element("nid").Value);
+                    node.Uri = resultXml.Element("uri").Value;
+
+                    if (onFinish != null)
+                    {
+                        onFinish(node);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (onError != null)
+                    {
+                        onError(ex);
+                    }
+                }
+            };
+
+            // Call the OpenWriteAsyc to make a POST request.
+            webClient.UploadStringAsync(new Uri(requestString), "POST", requestQuery);
         }
     }
 }
