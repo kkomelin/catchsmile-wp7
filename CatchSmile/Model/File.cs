@@ -5,9 +5,154 @@ using System.Data.Linq.Mapping;
 
 namespace CatchSmile.Model
 {
-
-    public class File
+    /// <summary>
+    /// The model for a file.
+    /// 
+    /// Drupal 7 file structure:
+    /// 'filesize' => filesize($filename),
+    /// 'filename' => basename($filename),
+    /// 'file' => base64_encode(file_get_contents($filename)),
+    /// 'uid' => $logged_user->user->uid,
+    /// </summary>
+    [Table]
+    public class File : INotifyPropertyChanged, INotifyPropertyChanging
     {
+        private int _rowId;
 
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
+        public int RowId
+        {
+            get { return _rowId; }
+            set
+            {
+                if (_rowId != value)
+                {
+                    NotifyPropertyChanging("RowId");
+                    _rowId = value;
+                    NotifyPropertyChanged("RowId");
+                }
+            }
+        }
+
+        private int _fid;
+
+        [Column]
+        public int Fid
+        {
+            get { return _fid; }
+            set
+            {
+                if (_fid != value)
+                {
+                    NotifyPropertyChanging("Fid");
+                    _fid = value;
+                    NotifyPropertyChanged("Fid");
+                }
+            }
+        }
+
+        private int _filesize;
+
+        [Column]
+        public int FileSize
+        {
+            get { return _filesize; }
+            set
+            {
+                if (_filesize != value)
+                {
+                    NotifyPropertyChanging("FileSize");
+                    _filesize = value;
+                    NotifyPropertyChanged("FileSize");
+                }
+            }
+        }
+
+        private string _filename;
+
+        [Column]
+        public string FileName
+        {
+            get { return _filename; }
+            set
+            {
+                if (_filename != value)
+                {
+                    NotifyPropertyChanging("FileName");
+                    _filename = value;
+                    NotifyPropertyChanged("FileName");
+                }
+            }
+        }
+
+        private string _file;
+
+        [Column]
+        public string File
+        {
+            get { return _file; }
+            set
+            {
+                if (_file != value)
+                {
+                    NotifyPropertyChanging("File");
+                    _file = value;
+                    NotifyPropertyChanged("File");
+                }
+            }
+        }
+
+        private int _uid;
+
+        [Column]
+        public int Uid
+        {
+            get { return _uid; }
+            set
+            {
+                if (_uid != value)
+                {
+                    NotifyPropertyChanging("Uid");
+                    _uid = value;
+                    NotifyPropertyChanged("Uid");
+                }
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Used to notify that a property changed.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanging Members
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        /// <summary>
+        /// Used to notify that a property is about to change.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        private void NotifyPropertyChanging(string propertyName)
+        {
+            if (PropertyChanging != null)
+            {
+                PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
+            }
+        }
+
+        #endregion
     }
 }

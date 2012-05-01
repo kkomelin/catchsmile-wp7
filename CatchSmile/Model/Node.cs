@@ -105,7 +105,10 @@ namespace CatchSmile.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Used to notify that a property changed
+        /// <summary>
+        /// Used to notify that a property changed.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -120,7 +123,10 @@ namespace CatchSmile.Model
 
         public event PropertyChangingEventHandler PropertyChanging;
 
-        // Used to notify that a property is about to change
+        /// <summary>
+        ///  Used to notify that a property is about to change.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
         private void NotifyPropertyChanging(string propertyName)
         {
             if (PropertyChanging != null)
