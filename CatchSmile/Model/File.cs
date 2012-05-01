@@ -85,19 +85,19 @@ namespace CatchSmile.Model
             }
         }
 
-        private string _file;
+        private string _fileContent;
 
         [Column]
-        public string File
+        public string FileContent
         {
-            get { return _file; }
+            get { return _fileContent; }
             set
             {
-                if (_file != value)
+                if (_fileContent != value)
                 {
-                    NotifyPropertyChanging("File");
-                    _file = value;
-                    NotifyPropertyChanged("File");
+                    NotifyPropertyChanging("FileContent");
+                    _fileContent = value;
+                    NotifyPropertyChanged("FileContent");
                 }
             }
         }
@@ -115,6 +115,23 @@ namespace CatchSmile.Model
                     NotifyPropertyChanging("Uid");
                     _uid = value;
                     NotifyPropertyChanged("Uid");
+                }
+            }
+        }
+
+        private string _uri;
+
+        [Column]
+        public string Uri
+        {
+            get { return _uri; }
+            set
+            {
+                if (_uri != value)
+                {
+                    NotifyPropertyChanging("Uri");
+                    _uri = value;
+                    NotifyPropertyChanged("Uri");
                 }
             }
         }

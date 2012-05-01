@@ -134,5 +134,75 @@ namespace CatchSmile.Services
             // Call the OpenWriteAsyc to make a POST request.
             webClient.UploadStringAsync(new Uri(requestString), "POST", requestQuery);
         }
+
+        /// <summary>
+        /// Creates a file in Drupal remotelly.
+        /// 
+        /// To allow creating files through Services module you need to set 'Save file information' Drupal permission.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="onFinish"></param>
+        /// <param name="onError"></param>
+        public void CreateFile(CatchSmile.Model.File file, Action<CatchSmile.Model.File> onFinish = null, Action<Exception> onError = null)
+        {
+            // Check network availability.
+            if (!DeviceNetworkInformation.IsNetworkAvailable)
+            {
+                onError(new Exception("Network is unavailable!"));
+            }
+
+            WebClient webClient = new WebClient();
+
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+            webClient.Headers[HttpRequestHeader.Accept] = "application/xml";
+
+            String requestString = String.Format("{0}file", this.serviceUri);
+
+            // TODO: url-encoding, building url parameters from a collection.
+
+            String requestQuery = String.Format("filesize={0}&filename={1}&file={2}&uid={3}", file.FileSize, file.FileName, file.FileContent, file.Uid);
+
+            webClient.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
+            {
+                try
+                {
+                    if (e.Error != null)
+                    {
+                        if (onError != null)
+                        {
+                            onError(e.Error);
+                        }
+                    }
+
+                    /* Response example:
+                       <?xml version="1.0" encoding="utf-8"?>
+                       <result>
+                        <fid>17</fid>
+                        <uri>http://drupal7/endpoint1/file/17</uri>
+                       </result>
+                     */
+
+                    XElement resultXml = XElement.Parse(e.Result);
+
+                    file.Fid = int.Parse(resultXml.Element("fid").Value);
+                    file.Uri = resultXml.Element("uri").Value;
+
+                    if (onFinish != null)
+                    {
+                        onFinish(file);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (onError != null)
+                    {
+                        onError(ex);
+                    }
+                }
+            };
+
+            // Call the OpenWriteAsyc to make a POST request.
+            webClient.UploadStringAsync(new Uri(requestString), "POST", requestQuery);
+        }
     }
 }

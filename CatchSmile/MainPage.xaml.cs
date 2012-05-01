@@ -17,6 +17,8 @@ using CatchSmile.Services;
 using CatchSmile.Resources;
 using System.Collections.ObjectModel;
 using CatchSmile.Model;
+using System.IO;
+using System.Text;
 
 namespace CatchSmile
 {
@@ -41,11 +43,12 @@ namespace CatchSmile
 
         }
 
-        void onFinish(Node node)
+        void onFinish(Model.File file)
         {
-            App.ViewModel.AddNode(node);
+           /* App.ViewModel.AddNode(node);
 
-            listBox.ItemsSource = App.ViewModel.Nodes;
+            listBox.ItemsSource = App.ViewModel.Nodes;*/
+            MessageBox.Show(file.Fid.ToString());
         }
 
         void onError(Exception e)
@@ -60,12 +63,29 @@ namespace CatchSmile
 
             //NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));
 
-            Node node = new Node();
+            /*Node node = new Node();
             node.Title = "Sent from my WinPhone7";
             node.Type = "catchsmile";
 
             RESTService service = new RESTService(AppResources.RESTServiceUri);
             service.CreateNode(node, onFinish, onError);
+             * */
+
+            Model.File file = new Model.File();
+
+            file.FileName = "text.txt";
+            file.FileSize = 50;
+
+            string str = "Содержимое файла";
+
+            UTF8Encoding enc = new UTF8Encoding();
+            byte[] bytes = enc.GetBytes(str);
+
+            file.FileContent = Uri.EscapeDataString(Convert.ToBase64String(bytes));
+            file.Uid = 0;
+
+            RESTService service = new RESTService(AppResources.RESTServiceUri);
+            service.CreateFile(file, onFinish, onError);
         }
     }
 }
