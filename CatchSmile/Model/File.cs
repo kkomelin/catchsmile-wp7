@@ -17,19 +17,19 @@ namespace CatchSmile.Model
     [Table]
     public class File : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        private int _rowId;
+        private int _fileId;
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
-        public int RowId
+        public int FileId
         {
-            get { return _rowId; }
+            get { return _fileId; }
             set
             {
-                if (_rowId != value)
+                if (_fileId != value)
                 {
-                    NotifyPropertyChanging("RowId");
-                    _rowId = value;
-                    NotifyPropertyChanged("RowId");
+                    NotifyPropertyChanging("FileId");
+                    _fileId = value;
+                    NotifyPropertyChanged("FileId");
                 }
             }
         }

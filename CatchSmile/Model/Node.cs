@@ -12,19 +12,19 @@ namespace CatchSmile.Model
     [Table]
     public class Node : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        private int _rowId;
+        private int _nodeId;
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
-        public int RowId
+        public int NodeId
         {
-            get { return _rowId; }
+            get { return _nodeId; }
             set
             {
-                if (_rowId != value)
+                if (_nodeId != value)
                 {
-                    NotifyPropertyChanging("RowId");
-                    _rowId = value;
-                    NotifyPropertyChanged("RowId");
+                    NotifyPropertyChanging("NodeId");
+                    _nodeId = value;
+                    NotifyPropertyChanged("NodeId");
                 }
             }
         }
@@ -94,6 +94,38 @@ namespace CatchSmile.Model
                     _uri = value;
                     NotifyPropertyChanged("Uri");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Internal column for the associated File ID value.
+        /// </summary>
+        [Column]
+        internal int _fileId;
+
+        /// <summary>
+        /// Entity reference, to identify the File "storage" table.
+        /// </summary>
+        private EntityRef<File> _file;
+
+        /// <summary>
+        /// Association, to describe the relationship between this key and that "storage" table.
+        /// </summary>
+        [Association(Storage = "_file", ThisKey = "_fileId", OtherKey = "FileId")]
+        public File File
+        {
+            get { return _file.Entity; }
+            set
+            {
+                NotifyPropertyChanging("File");
+                _file.Entity = value;
+
+                if (value != null)
+                {
+                    _fileId = value.FileId;
+                }
+
+                NotifyPropertyChanging("File");
             }
         }
 

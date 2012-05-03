@@ -45,10 +45,13 @@ namespace CatchSmile
 
         void onFinish(Model.File file)
         {
-           /* App.ViewModel.AddNode(node);
+            Node node = new Node();
+            node.Title = "Sent from my WinPhone7";
+            node.Type = "catchsmile";
+            node.File = file;
 
-            listBox.ItemsSource = App.ViewModel.Nodes;*/
-            MessageBox.Show(file.Fid.ToString());
+            RESTService service = new RESTService(AppResources.RESTServiceUri);
+            service.CreateNode(node, onFinish2, onError);
         }
 
         void onError(Exception e)
@@ -56,24 +59,16 @@ namespace CatchSmile
             MessageBox.Show(e.Message);
         }
 
+        void onFinish2(Model.Node node)
+        {
+            MessageBox.Show(node.Nid.ToString() + " - " + node.File.Fid.ToString());
+        }
+
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            /*RESTService service = new RESTService(AppResources.RESTServiceUri);
-            service.GetNode(20, onFinish, onError);*/
-
-            //NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));
-
-            /*Node node = new Node();
-            node.Title = "Sent from my WinPhone7";
-            node.Type = "catchsmile";
-
-            RESTService service = new RESTService(AppResources.RESTServiceUri);
-            service.CreateNode(node, onFinish, onError);
-             * */
-
             Model.File file = new Model.File();
 
-            file.FileName = "text.txt";
+            file.FileName = "text.png";
             file.FileSize = 50;
 
             string str = "Содержимое файла";

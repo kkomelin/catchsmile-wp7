@@ -90,7 +90,7 @@ namespace CatchSmile.Services
 
             String requestString = String.Format("{0}node", this.serviceUri);
 
-            String requestQuery = String.Format("title={0}&type={1}", node.Title, node.Type);
+            String requestQuery = String.Format("title={0}&type={1}&catchsmile_image[fid]={2}&catchsmile_image[list]=1&catchsmile_image[data]=", node.Title, node.Type, node.File.Fid);
 
             webClient.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
             {

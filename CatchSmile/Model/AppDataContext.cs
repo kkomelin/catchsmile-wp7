@@ -22,5 +22,10 @@ namespace CatchSmile.Model
         /// Node table.
         /// </summary>
         public Table<Node> Nodes;
+
+        /// <summary>
+        /// File table.
+        /// </summary>
+        public Table<File> Categories;
     }
 }
