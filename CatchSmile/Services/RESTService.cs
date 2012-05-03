@@ -90,7 +90,7 @@ namespace CatchSmile.Services
 
             String requestString = String.Format("{0}node", this.serviceUri);
 
-            String requestQuery = String.Format("title={0}&type={1}&catchsmile_image[fid]={2}&catchsmile_image[list]=1&catchsmile_image[data]=", node.Title, node.Type, node.File.Fid);
+            String requestQuery = String.Format("title={0}&type={1}&catchsmile_image[und][][fid]={2}&catchsmile_image[und][][list]=1", Uri.EscapeDataString(node.Title), node.Type, node.File.Fid);
 
             webClient.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
             {
@@ -160,7 +160,7 @@ namespace CatchSmile.Services
 
             // TODO: url-encoding, building url parameters from a collection.
 
-            String requestQuery = String.Format("filesize={0}&filename={1}&file={2}&uid={3}", file.FileSize, file.FileName, file.FileContent, file.Uid);
+            String requestQuery = String.Format("filesize={0}&filename={1}&file={2}&uid={3}", file.FileSize, file.FileName, Uri.EscapeDataString(file.FileContent), file.Uid);
 
             webClient.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
             {

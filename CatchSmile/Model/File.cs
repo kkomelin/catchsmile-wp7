@@ -51,10 +51,10 @@ namespace CatchSmile.Model
             }
         }
 
-        private int _filesize;
+        private long _filesize;
 
         [Column]
-        public int FileSize
+        public long FileSize
         {
             get { return _filesize; }
             set

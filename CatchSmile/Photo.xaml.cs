@@ -13,6 +13,10 @@ using Microsoft.Phone.Controls;
 using Microsoft.Devices;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework.Media;
+using System.Text;
+using CatchSmile.Services;
+using CatchSmile.Resources;
+using CatchSmile.Model;
 
 namespace CatchSmile
 {
@@ -70,17 +74,51 @@ namespace CatchSmile
          
         }
 
+        void onFinish(Model.File file)
+        {
+            Node node = new Node();
+            node.Title = "Sent from my WinPhone7";
+            node.Type = "catchsmile";
+            node.File = file;
+
+            RESTService service = new RESTService(AppResources.RESTServiceUri);
+            service.CreateNode(node, onFinish2, onError);
+        }
+
+        void onError(Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+
+        void onFinish2(Model.Node node)
+        {
+            MessageBox.Show("Hooray! The image has been posted to the site successfully!");
+        }
+
         private void Camera_CaptureImageAvailable(object sender, ContentReadyEventArgs e)
         {
             
             Deployment.Current.Dispatcher.BeginInvoke(() =>
              {
 
-                 MediaLibrary ml = new MediaLibrary();
+                 /*MediaLibrary ml = new MediaLibrary();
 
                  ml.SavePictureToCameraRoll(
 
-                      string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now), e.ImageStream);
+                      string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now), e.ImageStream);*/
+
+                 string filename = "test.jpg";
+
+                 WriteableBitmap wb = FileStorage.SaveToIsolatedStorage(e.ImageStream, filename);
+
+                 Model.File file = new Model.File();
+                 file.FileName = filename;
+                 file.FileSize = FileStorage.FileLength(filename);
+                 file.FileContent = Convert.ToBase64String(FileStorage.ReadBytes(filename));
+                 file.Uid = 0;
+
+                 RESTService service = new RESTService(AppResources.RESTServiceUri);
+                 service.CreateFile(file, onFinish, onError);
 
              });
         }

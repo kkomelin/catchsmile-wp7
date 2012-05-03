@@ -35,7 +35,7 @@ namespace CatchSmile
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-      
+            NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative)); return;
         }
 
         private void listenerTap(object sender, GestureEventArgs e)
@@ -66,6 +66,8 @@ namespace CatchSmile
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
+            
+
             Model.File file = new Model.File();
 
             file.FileName = "text.png";
