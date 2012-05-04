@@ -87,7 +87,7 @@ namespace CatchSmile.Model
 
         private string _fileContent;
 
-        [Column]
+        //[Column]
         public string FileContent
         {
             get { return _fileContent; }

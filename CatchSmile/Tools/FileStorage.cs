@@ -82,7 +82,7 @@ namespace CatchSmile
             }
         }*/
 
-        public static long FileLength(string fileName)
+        /*public static long FileLength(string fileName)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -91,9 +91,9 @@ namespace CatchSmile
                     return fileStream.Length;
                 }
             }
-        }
+        }*/
 
-        public static byte[] ReadBytes(string fileName)
+        public static byte[] ReadBytesFRomIsolatedStorage(string fileName)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -109,18 +109,39 @@ namespace CatchSmile
             }
         }
 
-        public static WriteableBitmap ReadFromIsolatedStorage(string fileName)
+        public static BitmapImage ReadBitmapFromIsolatedStorage(string fileName)
         {
-            WriteableBitmap bitmap = new WriteableBitmap(200, 200);
+            BitmapImage bmp = new BitmapImage();
+            byte[] data;
+
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(fileName, FileMode.Open, FileAccess.Read))
                 {
                     // Decode the JPEG stream.
-                    bitmap = PictureDecoder.DecodeJpeg(fileStream);
+                    /*WriteableBitmap wb = PictureDecoder.DecodeJpeg(fileStream);
+
+                     MemoryStream ms = new MemoryStream();
+
+                     wb.SaveJpeg(ms, wb.PixelWidth, wb.PixelHeight, 0, 100);
+  
+                     bmp.SetSource(ms);*/
+
+                    data = new byte[fileStream.Length];
+
+                    fileStream.Read(data, 0, data.Length);
+
+                    fileStream.Close();
+
                 }
+
             }
-            return bitmap;
+
+            MemoryStream ms = new MemoryStream(data);
+
+            bmp.SetSource(ms);
+
+            return bmp;
         }
 
     }

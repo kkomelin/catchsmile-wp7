@@ -14,11 +14,6 @@ namespace CatchSmile.Model
         public AppDataContext(string connectionString) : base(connectionString) { }
 
         /// <summary>
-        /// File table.
-        /// </summary>
-        //public Table<File> Files;
-
-        /// <summary>
         /// Node table.
         /// </summary>
         public Table<Node> Nodes;
@@ -26,6 +21,6 @@ namespace CatchSmile.Model
         /// <summary>
         /// File table.
         /// </summary>
-        public Table<File> Categories;
+        public Table<File> Files;
     }
 }

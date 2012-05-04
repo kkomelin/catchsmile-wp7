@@ -52,6 +52,16 @@ namespace CatchSmile.ViewModel
             var nodesInDB = from Node node in appDB.Nodes
                                 select node;
 
+
+            /*var filesInDB = from File file in appDB.Files
+                            select file;
+           /* foreach (Node node in nodesInDB)
+            {
+
+            }*/
+
+            /*ObservableCollection<File> ff = new ObservableCollection<File>(filesInDB);*/
+
             // Load all node objects.
             Nodes = new ObservableCollection<Node>(nodesInDB);
         }

@@ -77,7 +77,7 @@ namespace CatchSmile
         void onFinish(Model.File file)
         {
             Node node = new Node();
-            node.Title = "Sent from my WinPhone7";
+            node.Title = file.FileName;
             node.Type = "catchsmile";
             node.File = file;
 
@@ -92,7 +92,11 @@ namespace CatchSmile
 
         void onFinish2(Model.Node node)
         {
-            MessageBox.Show("Hooray! The image has been posted to the site successfully!");
+            //MessageBox.Show("Hooray! The image has been posted to the site successfully!");
+
+            App.ViewModel.AddNode(node);
+
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         private void Camera_CaptureImageAvailable(object sender, ContentReadyEventArgs e)
@@ -100,21 +104,16 @@ namespace CatchSmile
             
             Deployment.Current.Dispatcher.BeginInvoke(() =>
              {
-
-                 /*MediaLibrary ml = new MediaLibrary();
-
-                 ml.SavePictureToCameraRoll(
-
-                      string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now), e.ImageStream);*/
-
-                 string filename = "test.jpg";
+                 string filename = string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now);
 
                  WriteableBitmap wb = FileStorage.SaveToIsolatedStorage(e.ImageStream, filename);
 
+                 byte[] imageContent = FileStorage.ReadBytesFRomIsolatedStorage(filename);
+
                  Model.File file = new Model.File();
                  file.FileName = filename;
-                 file.FileSize = FileStorage.FileLength(filename);
-                 file.FileContent = Convert.ToBase64String(FileStorage.ReadBytes(filename));
+                 file.FileSize = imageContent.Length;
+                 file.FileContent = Convert.ToBase64String(imageContent);
                  file.Uid = 0;
 
                  RESTService service = new RESTService(AppResources.RESTServiceUri);

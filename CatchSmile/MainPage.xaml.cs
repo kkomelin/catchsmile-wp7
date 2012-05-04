@@ -35,7 +35,7 @@ namespace CatchSmile
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative)); return;
+            //NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative)); return;
         }
 
         private void listenerTap(object sender, GestureEventArgs e)
@@ -66,23 +66,24 @@ namespace CatchSmile
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            
+            NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));
+        }
 
-            Model.File file = new Model.File();
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            App.ViewModel.LoadData();
 
-            file.FileName = "text.png";
-            file.FileSize = 50;
+            // Call the base method.
+            base.OnNavigatedTo(e);
+        }
 
-            string str = "Содержимое файла";
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            // Call the base method.
+            base.OnNavigatedFrom(e);
 
-            UTF8Encoding enc = new UTF8Encoding();
-            byte[] bytes = enc.GetBytes(str);
-
-            file.FileContent = Uri.EscapeDataString(Convert.ToBase64String(bytes));
-            file.Uid = 0;
-
-            RESTService service = new RESTService(AppResources.RESTServiceUri);
-            service.CreateFile(file, onFinish, onError);
+            // Save changes to the database.
+            App.ViewModel.SaveChangesToDB();
         }
     }
 }
