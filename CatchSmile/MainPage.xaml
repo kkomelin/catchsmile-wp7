@@ -35,13 +35,7 @@
             <ListBox x:Name="listBox" ItemsSource="{Binding Nodes}" Grid.ColumnSpan="2">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBox Width="200"
-                                    FontSize="14"
-                                    Margin="10"
-                                    Text="{Binding Title}" 
-                                    HorizontalAlignment="Left"
-                                     />
+                        <StackPanel Margin="10">
                             <Image Width="200" CacheMode="BitmapCache"
                                 Source="{Binding File.FileName, Converter={StaticResource IsoFileConverter}}"/>
                         </StackPanel>
