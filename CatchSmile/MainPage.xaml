@@ -42,7 +42,7 @@
                                     Text="{Binding Title}" 
                                     HorizontalAlignment="Left"
                                      />
-                            <Image CacheMode="BitmapCache"
+                            <Image Width="200" CacheMode="BitmapCache"
                                 Source="{Binding File.FileName, Converter={StaticResource IsoFileConverter}}"/>
                         </StackPanel>
                     </DataTemplate>

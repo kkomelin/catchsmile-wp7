@@ -93,7 +93,7 @@ namespace CatchSmile
             }
         }*/
 
-        public static byte[] ReadBytesFRomIsolatedStorage(string fileName)
+        public static byte[] ReadBytesFromIsolatedStorage(string fileName)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {

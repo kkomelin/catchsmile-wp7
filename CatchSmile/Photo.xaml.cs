@@ -76,6 +76,8 @@ namespace CatchSmile
 
         void onFinish(Model.File file)
         {
+            App.ViewModel.AddFile(file);
+
             Node node = new Node();
             node.Title = file.FileName;
             node.Type = "catchsmile";
@@ -108,13 +110,14 @@ namespace CatchSmile
 
                  WriteableBitmap wb = FileStorage.SaveToIsolatedStorage(e.ImageStream, filename);
 
-                 byte[] imageContent = FileStorage.ReadBytesFRomIsolatedStorage(filename);
+                 byte[] imageContent = FileStorage.ReadBytesFromIsolatedStorage(filename);
 
                  Model.File file = new Model.File();
                  file.FileName = filename;
                  file.FileSize = imageContent.Length;
                  file.FileContent = Convert.ToBase64String(imageContent);
                  file.Uid = 0;
+                 
 
                  RESTService service = new RESTService(AppResources.RESTServiceUri);
                  service.CreateFile(file, onFinish, onError);

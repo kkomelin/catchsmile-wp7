@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 
 using CatchSmile.Model;
+using System.Data.Linq;
 
 namespace CatchSmile.ViewModel
 {
@@ -27,6 +28,16 @@ namespace CatchSmile.ViewModel
         public AppViewModel(string appDBConnectionString)
         {
             appDB = new AppDataContext(appDBConnectionString);
+
+            // Linq to SQL uses lazy loading for fetching data.  
+            // It means that we have to fetch related data manually if we need it.
+            // I should use data load options to achive auto loading of related properties.
+
+            //DataLoadOptions options = new DataLoadOptions();
+
+            //options.LoadWith<Node>(node => node.File);
+
+            //appDB.LoadOptions = options;
         }
 
         private ObservableCollection<Node> _nodes;
@@ -43,27 +54,39 @@ namespace CatchSmile.ViewModel
             }
         }
 
+        private ObservableCollection<File> _files;
+        /// <summary>
+        /// Collection of files.
+        /// </summary>
+        public ObservableCollection<File> Files
+        {
+            get { return _files; }
+            set
+            {
+                _files = value;
+                NotifyPropertyChanged("File");
+            }
+        }
+
         /// <summary>
         /// Load node collection from the database.
         /// </summary>
         public void LoadData()
         {
+
             // Select all nodes from the database using LINQ to SQL.
             var nodesInDB = from Node node in appDB.Nodes
                                 select node;
-
-
-            /*var filesInDB = from File file in appDB.Files
-                            select file;
-           /* foreach (Node node in nodesInDB)
-            {
-
-            }*/
-
-            /*ObservableCollection<File> ff = new ObservableCollection<File>(filesInDB);*/
-
+            
             // Load all node objects.
             Nodes = new ObservableCollection<Node>(nodesInDB);
+
+            // Select all files from the database using LINQ to SQL.
+            var filesInDB = from File file in appDB.Files
+                            select file;
+
+            // Load all file objects.
+            Files = new ObservableCollection<File>(filesInDB);
         }
 
         /// <summary>
@@ -98,6 +121,21 @@ namespace CatchSmile.ViewModel
             appDB.SubmitChanges();
         }
 
+        /// <summary>
+        /// Add file object to the database and Files collection.
+        /// </summary>
+        /// <param name="newToDoItem">File object</param>
+        public void AddFile(File file)
+        {
+            // Add the file object to the data context.
+            appDB.Files.InsertOnSubmit(file);
+
+            // Save changes to the database.
+            appDB.SubmitChanges();
+
+            // Add the file object to the Files observable collection.
+            Files.Add(file);
+        }
 
         /// <summary>
         /// Write changes in the data context to the database.
