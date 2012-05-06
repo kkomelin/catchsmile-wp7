@@ -33,37 +33,6 @@ namespace CatchSmile
             this.DataContext = App.ViewModel;
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            //NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative)); return;
-        }
-
-        private void listenerTap(object sender, GestureEventArgs e)
-        {
-
-        }
-
-        void onFinish(Model.File file)
-        {
-            Node node = new Node();
-            node.Title = "Sent from my WinPhone7";
-            node.Type = "catchsmile";
-            node.File = file;
-
-            RESTService service = new RESTService(AppResources.RESTServiceUri);
-            service.CreateNode(node, onFinish2, onError);
-        }
-
-        void onError(Exception e)
-        {
-            MessageBox.Show(e.Message);
-        }
-
-        void onFinish2(Model.Node node)
-        {
-            MessageBox.Show(node.Nid.ToString() + " - " + node.File.Fid.ToString());
-        }
-
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Photo.xaml", UriKind.Relative));

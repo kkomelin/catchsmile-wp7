@@ -108,20 +108,15 @@ namespace CatchSmile
              {
                  string filename = string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now);
 
-                 WriteableBitmap wb = FileStorage.SaveToIsolatedStorage(e.ImageStream, filename);
-
-                 byte[] imageContent = FileStorage.ReadBytesFromIsolatedStorage(filename);
+                 FileStorage.SaveToIsolatedStorage(e.ImageStream, filename);
 
                  Model.File file = new Model.File();
                  file.FileName = filename;
-                 file.FileSize = imageContent.Length;
-                 file.FileContent = Convert.ToBase64String(imageContent);
+                 file.FileSize = FileStorage.FileSize(filename);
                  file.Uid = 0;
-                 
 
                  RESTService service = new RESTService(AppResources.RESTServiceUri);
                  service.CreateFile(file, onFinish, onError);
-
              });
         }
 

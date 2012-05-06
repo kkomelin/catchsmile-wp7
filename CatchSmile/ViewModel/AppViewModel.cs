@@ -28,16 +28,6 @@ namespace CatchSmile.ViewModel
         public AppViewModel(string appDBConnectionString)
         {
             appDB = new AppDataContext(appDBConnectionString);
-
-            // Linq to SQL uses lazy loading for fetching data.  
-            // It means that we have to fetch related data manually if we need it.
-            // I should use data load options to achive auto loading of related properties.
-
-            //DataLoadOptions options = new DataLoadOptions();
-
-            //options.LoadWith<Node>(node => node.File);
-
-            //appDB.LoadOptions = options;
         }
 
         private ObservableCollection<Node> _nodes;
@@ -73,20 +63,12 @@ namespace CatchSmile.ViewModel
         /// </summary>
         public void LoadData()
         {
-
             // Select all nodes from the database using LINQ to SQL.
             var nodesInDB = from Node node in appDB.Nodes
                                 select node;
             
             // Load all node objects.
             Nodes = new ObservableCollection<Node>(nodesInDB);
-
-            // Select all files from the database using LINQ to SQL.
-            var filesInDB = from File file in appDB.Files
-                            select file;
-
-            // Load all file objects.
-            Files = new ObservableCollection<File>(filesInDB);
         }
 
         /// <summary>
@@ -132,9 +114,6 @@ namespace CatchSmile.ViewModel
 
             // Save changes to the database.
             appDB.SubmitChanges();
-
-            // Add the file object to the Files observable collection.
-            Files.Add(file);
         }
 
         /// <summary>

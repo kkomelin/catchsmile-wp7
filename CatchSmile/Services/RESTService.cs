@@ -158,9 +158,11 @@ namespace CatchSmile.Services
 
             String requestString = String.Format("{0}file", this.serviceUri);
 
-            // TODO: url-encoding, building url parameters from a collection.
+            byte[] imageContent = FileStorage.ReadBytesFromIsolatedStorage(file.FileName);
 
-            String requestQuery = String.Format("filesize={0}&filename={1}&file={2}&uid={3}", file.FileSize, file.FileName, Uri.EscapeDataString(file.FileContent), file.Uid);
+            string fileContent = Convert.ToBase64String(imageContent);
+
+            String requestQuery = String.Format("filesize={0}&filename={1}&file={2}&uid={3}", file.FileSize, file.FileName, Uri.EscapeDataString(fileContent), file.Uid);
 
             webClient.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
             {

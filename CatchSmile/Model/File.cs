@@ -85,23 +85,6 @@ namespace CatchSmile.Model
             }
         }
 
-        private string _fileContent;
-
-        //[Column]
-        public string FileContent
-        {
-            get { return _fileContent; }
-            set
-            {
-                if (_fileContent != value)
-                {
-                    NotifyPropertyChanging("FileContent");
-                    _fileContent = value;
-                    NotifyPropertyChanged("FileContent");
-                }
-            }
-        }
-
         private int _uid;
 
         [Column]
