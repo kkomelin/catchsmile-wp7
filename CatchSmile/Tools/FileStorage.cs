@@ -17,7 +17,7 @@ namespace CatchSmile
 {
     public class FileStorage
     {
-        public static void SaveToIsolatedStorage(Stream imageStream, string fileName)
+        public static void SaveToIsolatedStorage(Stream imageStream, string fileName, int reducingRate)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -32,7 +32,11 @@ namespace CatchSmile
                     bitmap.SetSource(imageStream);
 
                     WriteableBitmap wb = new WriteableBitmap(bitmap);
-                    wb.SaveJpeg(fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
+
+                    int resultWidth = (int)(wb.PixelWidth / reducingRate);
+                    int resultHeight = (int)(wb.PixelHeight / reducingRate);
+
+                    wb.SaveJpeg(fileStream, resultWidth, resultHeight, 0, 85);
                 }
             }
         }

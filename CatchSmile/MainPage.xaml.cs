@@ -54,5 +54,10 @@ namespace CatchSmile
             // Save changes to the database.
             App.ViewModel.SaveChangesToDB();
         }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
