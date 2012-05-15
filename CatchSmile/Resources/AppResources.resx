@@ -123,4 +123,7 @@
   <data name="RESTServiceUri" xml:space="preserve">
     <value>http://192.168.1.35/endpoint1/</value>
   </data>
+  <data name="PhotoQuality" xml:space="preserve">
+    <value>90</value>
+  </data>
 </root>

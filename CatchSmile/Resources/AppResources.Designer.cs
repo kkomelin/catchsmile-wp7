@@ -61,6 +61,15 @@ namespace CatchSmile.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 90.
+        /// </summary>
+        internal static string PhotoQuality {
+            get {
+                return ResourceManager.GetString("PhotoQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 3.
         /// </summary>
         internal static string ReducingRate {

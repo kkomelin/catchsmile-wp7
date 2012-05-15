@@ -35,16 +35,11 @@ namespace CatchSmile
 
         private void PhotoPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Check supported camera types.
-            /* if (PhotoCamera.IsCameraTypeSupported(CameraType.FrontFacing))
-            {
-                this.Camera = new PhotoCamera(CameraType.FrontFacing);
-            }*/
             if (PhotoCamera.IsCameraTypeSupported(CameraType.Primary))
             {
                 this.Camera = new PhotoCamera(CameraType.Primary);
             }
-            else // Display error message if no one type is supported.
+            else
             {
                 MessageBox.Show("Cannot find a camera on this device");
                 return;
@@ -98,8 +93,6 @@ namespace CatchSmile
 
         void onFinish2(Model.Node node)
         {
-            //MessageBox.Show("Hooray! The image has been posted to the site successfully!");
-
             App.ViewModel.AddNode(node);
 
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
@@ -112,7 +105,10 @@ namespace CatchSmile
             {
                 string filename = string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now);
 
-                FileStorage.SaveToIsolatedStorage(e.ImageStream, filename, Int32.Parse(AppResources.ReducingRate));
+                int reducingRate = Int32.Parse(AppResources.ReducingRate);
+                int photoQuality = Int32.Parse(AppResources.PhotoQuality);
+
+                FileStorage.SaveToIsolatedStorage(e.ImageStream, filename, reducingRate, photoQuality);
 
                 Model.File file = new Model.File();
                 file.FileName = filename;
@@ -138,38 +134,57 @@ namespace CatchSmile
         private void CorrectViewFinderOrientation(PageOrientation orientation)
         {
 
-            if (this.Camera != null)
+            if (this.Camera == null)
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    double rotation = this.Camera.Orientation;
-
-                    switch (this.Orientation)
-                    {
-                        case PageOrientation.LandscapeLeft:
-                            rotation = this.Camera.Orientation - 90;
-                            break;
-                        case PageOrientation.LandscapeRight:
-                            rotation = this.Camera.Orientation + 90;
-                            break;
-                    }
-
-                    this.cameraViewBrushTransform.Rotation = rotation;
-                });
+                return;
             }
 
+            Dispatcher.BeginInvoke(() =>
+            {
+                System.Diagnostics.Debug.WriteLine("Switching to {0}", orientation);
+                switch (orientation)
+                {
+                    case PageOrientation.PortraitUp:
+                        this.cameraViewBrush.Transform =
+                            new CompositeTransform { Rotation = 90, TranslateX = 480 };
+                        this.lastShot.RenderTransform = new CompositeTransform { Rotation = 90, TranslateX = 480 };
+                        break;
+                    case PageOrientation.LandscapeLeft:
+                        this.cameraViewBrush.Transform = null;
+                        this.lastShot.RenderTransform = null;
+                        break;
+                    case PageOrientation.LandscapeRight:
+                        if (Microsoft.Phone.Shell.SystemTray.IsVisible)
+                        {
+                            this.cameraViewBrush.Transform =
+                                new CompositeTransform { Rotation = 180, TranslateX = 728, TranslateY = 480 };
+                            this.lastShot.RenderTransform =
+                            new CompositeTransform { Rotation = 180, TranslateX = 728, TranslateY = 480 };
+                        }
+                        else
+                        {
+                            this.cameraViewBrush.Transform =
+                                new CompositeTransform { Rotation = 180, TranslateX = 800, TranslateY = 480 };
+                            this.lastShot.RenderTransform =
+                            new CompositeTransform { Rotation = 180, TranslateX = 800, TranslateY = 480 };
+                        }
+                        break;
+                }
+            });
         }
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
-            if (this.Camera != null)
+            if (this.Camera == null)
             {
+                return;
+            }
                 // Dispose of the camera to minimize power consumption and to expedite shutdown.
                 this.Camera.Dispose();
 
                 // Release memory, ensure garbage collection.
                 //cam.Initialized -= cam_Initialized;
-            }
+
         }
     }
 }
