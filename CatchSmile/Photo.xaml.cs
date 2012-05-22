@@ -179,11 +179,12 @@ namespace CatchSmile
             {
                 return;
             }
-                // Dispose of the camera to minimize power consumption and to expedite shutdown.
-                this.Camera.Dispose();
 
-                // Release memory, ensure garbage collection.
-                //cam.Initialized -= cam_Initialized;
+            // Dispose of the camera to minimize power consumption and to expedite shutdown.
+            this.Camera.Dispose();
+
+            // Release memory, ensure garbage collection.
+            //cam.Initialized -= cam_Initialized;
 
         }
     }
