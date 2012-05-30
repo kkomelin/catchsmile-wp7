@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010 Express for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatchSmile", "CatchSmile\CatchSmile.csproj", "{63A43B3B-8AE5-46BA-8D77-078B38FCEFC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonLinearNavigationService", "NonLinearNavigationService\NonLinearNavigationService.csproj", "{75990D93-5CF4-49BC-B180-C27F6A61A4B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{63A43B3B-8AE5-46BA-8D77-078B38FCEFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63A43B3B-8AE5-46BA-8D77-078B38FCEFC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63A43B3B-8AE5-46BA-8D77-078B38FCEFC9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{75990D93-5CF4-49BC-B180-C27F6A61A4B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75990D93-5CF4-49BC-B180-C27F6A61A4B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75990D93-5CF4-49BC-B180-C27F6A61A4B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75990D93-5CF4-49BC-B180-C27F6A61A4B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

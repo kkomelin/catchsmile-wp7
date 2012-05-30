@@ -15,6 +15,7 @@ using Microsoft.Phone.Shell;
 
 using CatchSmile.ViewModel;
 using CatchSmile.Model;
+using WindowsPhoneRecipes;
 
 namespace CatchSmile
 {
@@ -68,6 +69,12 @@ namespace CatchSmile
             }
 
             InitializeViewModel();
+
+            ///////////////////////////////////////////////////////////////////////////////////
+            // Init the NonLinearNavigationService, make sure you call it last in the app CTOR
+            // (this has minimal impact on load time)
+            ///////////////////////////////////////////////////////////////////////////////////
+            NonLinearNavigationService.Instance.Initialize(RootFrame);
         }
 
         /// <summary>

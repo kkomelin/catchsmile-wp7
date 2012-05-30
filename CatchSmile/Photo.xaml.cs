@@ -17,6 +17,7 @@ using System.Text;
 using CatchSmile.Services;
 using CatchSmile.Resources;
 using CatchSmile.Model;
+using WindowsPhoneRecipes;
 
 namespace CatchSmile
 {
@@ -173,8 +174,44 @@ namespace CatchSmile
             });
         }
 
-        protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
+            base.OnBackKeyPress(e);
+
+            // due to bug, BackKey doesnt send navigation events so we handle this myself
+            if (NavigationService.CanGoBack)
+            {
+                e.Cancel = true;
+                NavigationService.GoBack();
+            }
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // If we are in recursive back - DO NOT DO ANY WORK ON PAGE
+            // Developers - make sure you have no specific logic that you need to take care of here
+            if (NonLinearNavigationService.Instance.IsRecursiveBackNavigation == true)
+            {
+                return;
+            }
+            //else
+            /*
+             * DO WORK HERE - like animation, data biding, and so on...
+             */
+            this.ApplicationBar.IsVisible = true;
+        }
+
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+            base.OnNavigatedFrom(e);
+
+            // on navigating away from the page, hide the appbar so we dont see it if we are recursive back
+            this.ApplicationBar.IsVisible = false;
+
             if (this.Camera == null)
             {
                 return;
@@ -182,10 +219,6 @@ namespace CatchSmile
 
             // Dispose of the camera to minimize power consumption and to expedite shutdown.
             this.Camera.Dispose();
-
-            // Release memory, ensure garbage collection.
-            //cam.Initialized -= cam_Initialized;
-
         }
     }
 }

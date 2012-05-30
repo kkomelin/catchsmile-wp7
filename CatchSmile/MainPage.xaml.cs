@@ -59,5 +59,17 @@ namespace CatchSmile
         {
 
         }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+
+            // due to bug, BackKey doesnt send navigation events so we handle this myself
+            if (NavigationService.CanGoBack)
+            {
+                e.Cancel = true;
+                NavigationService.GoBack();
+            }
+        }
     }
 }
