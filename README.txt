@@ -1,26 +1,21 @@
-<h2>Catch a Smile Windows Phone 7 application</h2>
+## Catch a Smile Windows Phone 7 application
 
-<h3>Description</h3>
-<p>
-	<i>Part of demo project for DrupalConf Moscow 2012 (02.06.2012).</i>
+### Description
 
-	This is simple app that allows to take photo and upload it to Drupal site through web services.
+Part of demo project for DrupalConf Moscow 2012 (02.06.2012).
 
-	This application depends on <a href="https://github.com/konstantin-komelin/catchsmile">catchsmile module for Drupal 7</a>.
+This is simple app that allows to take photo and upload it to Drupal site through web services.
 
-	Application settings are located in Resources/AppResources.resx .
-</p>
+This application depends on catchsmile module for Drupal 7 https://github.com/konstantin-komelin/catchsmile .
 
-<h3>Licence</h3>
-<p>
-	I provide the app "AS IS" without any warranty.
+Application settings are located in Resources/AppResources.resx .
 
-	I used open source third-party code in this project, such as:
-	<ul>
-		<li>
-			<a href="http://create.msdn.com/en-us/education/catalog/article/nln-serv-wp7">Non-Linear Navigation Service</a> (Ms-PL licence)
-		</li>
-	</ul>
-</p>
+### Licence
+
+I provide the app "AS IS" without any warranty.
+
+Used open source third-party code, such as:
+* Non-Linear Navigation Service (Ms-PL licence)
+  http://create.msdn.com/en-us/education/catalog/article/nln-serv-wp7
 
 Feel free to contact with me using http://komelin.com/contact if you have any questions.
