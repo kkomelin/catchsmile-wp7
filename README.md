@@ -14,9 +14,8 @@ https://github.com/konstantin-komelin/catchsmile
 
 ### Installation and configuration
 
-1) Change RESTServiceUri constant in Resources/AppResources.resx of the WP7 app according to host name of your Drupal site.
-2) To configure catchsmile module of Drupal please read indtructions https://github.com/konstantin-komelin/catchsmile
-
+1. Change RESTServiceUri constant in Resources/AppResources.resx of the WP7 app according to host name of your Drupal site.  
+2. To configure catchsmile module of Drupal please read indtructions https://github.com/konstantin-komelin/catchsmile
 
 ### Licence
 
