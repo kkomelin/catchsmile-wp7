@@ -27,6 +27,14 @@ namespace CatchSmile.Services
             this.serviceUri = serviceUri;
         }
 
+        /// <summary>
+        /// Reads node data through web service.
+        /// 
+        /// Incomplete!
+        /// </summary>
+        /// <param name="nid"></param>
+        /// <param name="onFinish"></param>
+        /// <param name="onError"></param>
         public void GetNode(int nid, Action<Node> onFinish = null, Action<Exception> onError = null) 
         {
             // Check network availability.
@@ -51,6 +59,7 @@ namespace CatchSmile.Services
                         }
                     }
 
+                    // TODO: Extract other node fields.
                     XElement resultXml = XElement.Load(e.Result);
                     XElement xEl = resultXml.Element("title");
 
@@ -75,6 +84,15 @@ namespace CatchSmile.Services
             webClient.OpenReadAsync(new Uri(requestString));
         }
 
+        /// <summary>
+        /// Creates a node in Drupal remotelly.
+        /// 
+        /// To allow creating nodes through Services and if you don't use authentication 
+        /// make sure that anonymous user has necessary Drupal permission.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="onFinish"></param>
+        /// <param name="onError"></param>
         public void CreateNode(Node node, Action<Node> onFinish = null, Action<Exception> onError = null)
         {
             // Check network availability.
@@ -131,7 +149,7 @@ namespace CatchSmile.Services
                 }
             };
 
-            // Call the OpenWriteAsyc to make a POST request.
+            // Call the UploadStringAsync to make a POST request.
             webClient.UploadStringAsync(new Uri(requestString), "POST", requestQuery);
         }
 
@@ -203,7 +221,7 @@ namespace CatchSmile.Services
                 }
             };
 
-            // Call the OpenWriteAsyc to make a POST request.
+            // Call the UploadStringAsync to make a POST request.
             webClient.UploadStringAsync(new Uri(requestString), "POST", requestQuery);
         }
     }

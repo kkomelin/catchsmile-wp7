@@ -15,12 +15,24 @@ using Microsoft.Phone;
 
 namespace CatchSmile
 {
+    /// <summary>
+    /// Operates with Isolated Storage.
+    /// </summary>
     public class FileStorage
     {
+        /// <summary>
+        /// Saves stream to IS storage file.
+        /// Overrides existing file.
+        /// </summary>
+        /// <param name="imageStream"></param>
+        /// <param name="fileName"></param>
+        /// <param name="reducingRate"></param>
+        /// <param name="quality"></param>
         public static void SaveToIsolatedStorage(Stream imageStream, string fileName, int reducingRate, int quality)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
+                // Delete file if it already exists.
                 if (myIsolatedStorage.FileExists(fileName))
                 {
                     myIsolatedStorage.DeleteFile(fileName);
@@ -41,49 +53,11 @@ namespace CatchSmile
             }
         }
 
-        /*public void SaveToFile(string fileName, string content)
-        {
-            try
-            {
-                ///<summary>
-                /// Get the user Store and then create the file in the store.
-                /// Finally write the content to the file.
-                ///</summary>
-                using (var store = IsolatedStorageFile.GetUserStoreForApplication())
-                using (var writeStream = new IsolatedStorageFileStream(fileName, FileMode.Create, store))
-                using (var writer = new StreamWriter(writeStream))
-                {
-                    writer.Write(content);
-                }
-            }
-            catch (IsolatedStorageException e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }*/
-
-        /*public string LoadFromFile(string fileName)
-        {
-            try
-            {
-                ///<summary>
-                /// Get the user Store and then open the file in the store.
-                /// Finally read the content of the file and return it.
-                ///</summary>
-                using (var store = IsolatedStorageFile.GetUserStoreForApplication())
-                using (var readStream = new IsolatedStorageFileStream(fileName, FileMode.Open, store))
-                using (var reader = new StreamReader(readStream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
-            catch (IsolatedStorageException e)
-            {
-                MessageBox.Show(e.Message);
-                return String.Empty;
-            }
-        }*/
-
+        /// <summary>
+        /// Returns IS file size.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static long FileSize(string fileName)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -95,6 +69,11 @@ namespace CatchSmile
             }
         }
 
+        /// <summary>
+        /// Reads file from IS to byte array.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static byte[] ReadBytesFromIsolatedStorage(string fileName)
         {
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -111,6 +90,11 @@ namespace CatchSmile
             }
         }
 
+        /// <summary>
+        /// Reads file from IS to BitmapImage.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static BitmapImage ReadBitmapFromIsolatedStorage(string fileName)
         {
             BitmapImage bmp = new BitmapImage();
@@ -120,21 +104,11 @@ namespace CatchSmile
             {
                 using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    // Decode the JPEG stream.
-                    /*WriteableBitmap wb = PictureDecoder.DecodeJpeg(fileStream);
-
-                     MemoryStream ms = new MemoryStream();
-
-                     wb.SaveJpeg(ms, wb.PixelWidth, wb.PixelHeight, 0, 100);
-  
-                     bmp.SetSource(ms);*/
-
                     data = new byte[fileStream.Length];
 
                     fileStream.Read(data, 0, data.Length);
 
                     fileStream.Close();
-
                 }
 
             }

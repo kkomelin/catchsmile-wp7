@@ -84,7 +84,7 @@ namespace CatchSmile
         {
             // Specify the local database connection string.
             // I use SQL CE database that is stored into Isolated Storage.
-            string DBConnectionString = "Data Source=isostore:/Nodes2.sdf";
+            string DBConnectionString = "Data Source=isostore:/CatchSmile.sdf";
 
             // Create the database if it does not exist.
             using (AppDataContext db = new AppDataContext(DBConnectionString))

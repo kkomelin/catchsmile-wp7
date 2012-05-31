@@ -30,6 +30,10 @@ namespace CatchSmile
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
             this.DataContext = App.ViewModel;
         }
 
@@ -55,16 +59,11 @@ namespace CatchSmile
             App.ViewModel.SaveChangesToDB();
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             base.OnBackKeyPress(e);
 
-            // due to bug, BackKey doesnt send navigation events so we handle this myself
+            // Due to bug, BackKey doesn't send navigation events so we handle this.
             if (NavigationService.CanGoBack)
             {
                 e.Cancel = true;

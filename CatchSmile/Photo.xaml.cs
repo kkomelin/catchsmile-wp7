@@ -74,17 +74,17 @@ namespace CatchSmile
 
         }
 
-        void onFinish(Model.File file)
+        void onFileCreatedRemotely(Model.File file)
         {
             App.ViewModel.AddFile(file);
 
             Node node = new Node();
             node.Title = file.FileName;
-            node.Type = "catchsmile";
+            node.Type = AppResources.DrupalContentType;
             node.File = file;
 
             RESTService service = new RESTService(AppResources.RESTServiceUri);
-            service.CreateNode(node, onFinish2, onError);
+            service.CreateNode(node, onNodeCreatedRemotely, onError);
         }
 
         void onError(Exception e)
@@ -92,7 +92,7 @@ namespace CatchSmile
             MessageBox.Show(e.Message);
         }
 
-        void onFinish2(Model.Node node)
+        void onNodeCreatedRemotely(Model.Node node)
         {
             App.ViewModel.AddNode(node);
 
@@ -104,6 +104,7 @@ namespace CatchSmile
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
+                // Save file.
                 string filename = string.Format("{0:yyyyMMdd-HHmmss}.jpg", DateTime.Now);
 
                 int reducingRate = Int32.Parse(AppResources.ReducingRate);
@@ -117,7 +118,7 @@ namespace CatchSmile
                 file.Uid = 0;
 
                 RESTService service = new RESTService(AppResources.RESTServiceUri);
-                service.CreateFile(file, onFinish, onError);
+                service.CreateFile(file, onFileCreatedRemotely, onError);
             });
         }
 
@@ -178,7 +179,7 @@ namespace CatchSmile
         {
             base.OnBackKeyPress(e);
 
-            // due to bug, BackKey doesnt send navigation events so we handle this myself
+            // Due to bug, BackKey doesn't send navigation events so we handle this.
             if (NavigationService.CanGoBack)
             {
                 e.Cancel = true;
@@ -190,16 +191,13 @@ namespace CatchSmile
         {
             base.OnNavigatedTo(e);
 
-            // If we are in recursive back - DO NOT DO ANY WORK ON PAGE
-            // Developers - make sure you have no specific logic that you need to take care of here
+            // If we are in recursive back - DO NOT DO ANY WORK ON PAGE.
+            // Developers - make sure you have no specific logic that you need to take care of here.
             if (NonLinearNavigationService.Instance.IsRecursiveBackNavigation == true)
             {
                 return;
             }
-            //else
-            /*
-             * DO WORK HERE - like animation, data biding, and so on...
-             */
+
             this.ApplicationBar.IsVisible = true;
         }
 
@@ -209,7 +207,7 @@ namespace CatchSmile
 
             base.OnNavigatedFrom(e);
 
-            // on navigating away from the page, hide the appbar so we dont see it if we are recursive back
+            // On navigating away from the page, hide the appbar so we dont see it if we are in recursive back.
             this.ApplicationBar.IsVisible = false;
 
             if (this.Camera == null)

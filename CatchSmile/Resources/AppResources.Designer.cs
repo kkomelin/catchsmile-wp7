@@ -61,6 +61,15 @@ namespace CatchSmile.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to catchsmile.
+        /// </summary>
+        internal static string DrupalContentType {
+            get {
+                return ResourceManager.GetString("DrupalContentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 90.
         /// </summary>
         internal static string PhotoQuality {
@@ -79,7 +88,7 @@ namespace CatchSmile.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://192.168.1.35/endpoint1/.
+        ///   Looks up a localized string similar to http://localhost/endpoint1/.
         /// </summary>
         internal static string RESTServiceUri {
             get {

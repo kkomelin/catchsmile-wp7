@@ -15,9 +15,20 @@ using System.IO;
 
 namespace CatchSmile.Tools
 {
+    /// <summary>
+    /// Converts filename to bitmap and vice versa.
+    /// </summary>
     public class IsoFileConverter : IValueConverter
     {
-
+        /// <summary>
+        /// Gets BitmapImage by filename.
+        /// Reads file from the Isolated Storage.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string)
@@ -28,34 +39,9 @@ namespace CatchSmile.Tools
             throw new NotSupportedException();
         }
 
-       /* public string ImageToBase64(Image image)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-
-                // Convert Image to byte[]
-
-               // image.Save(ms, format);
-
-                byte[] imageBytes = ms.ToArray();
-
-                // Convert byte[] to Base64 String
-
-               // string base64String = Convert.ToBase64String(imageBytes);
-
-              //  return base64String;
-
-            }
-
-        }*/
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
             throw new NotSupportedException();
-
         }
-
     }
-
 }

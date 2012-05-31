@@ -121,9 +121,12 @@
     <value>3</value>
   </data>
   <data name="RESTServiceUri" xml:space="preserve">
-    <value>http://192.168.1.35/endpoint1/</value>
+    <value>http://localhost/endpoint1/</value>
   </data>
   <data name="PhotoQuality" xml:space="preserve">
     <value>90</value>
+  </data>
+  <data name="DrupalContentType" xml:space="preserve">
+    <value>catchsmile</value>
   </data>
 </root>
